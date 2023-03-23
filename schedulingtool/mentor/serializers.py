@@ -45,9 +45,9 @@ class MentorSerializer(serializers.ModelSerializer):
     level = serializers.ChoiceField(choices=level_category)
     class Meta:
         model = Mentor
-        fields = ['first_name', 'last_name', 'email', 'bio', 'image', 'skills', "level",
+        fields = ["id","first_name", "last_name", "email", "bio", "image", "skills", "level",
                    "interview", "offer", "contract_sent", "contract_return",
-                  "onboarding_completed", "feedback_sent", "offboarding", "event"]
+                  "onboarding_completed", "feedback_sent", "offboarding", "events"]
         extra_kwargs = {'events' : {'required': False}}
         read_only_fields = ['id']
 
