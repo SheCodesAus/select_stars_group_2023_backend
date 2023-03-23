@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Event
-from .serializers import EventSerializer,EventDetailSerializer
+from .models import Event, Mentor
+from .serializers import EventSerializer,EventDetailSerializer, MentorSerializer, MentorDetailSerializer
 from django.http import Http404
 from rest_framework import status, generics, permissions
 # from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
@@ -72,3 +72,20 @@ class EventDetail(APIView):
         event = self.get_object(pk)
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class MentorList(generics.ListCreateAPIView): #to create a read-write endpoint that lists all available Pledge instances
+    queryset = Mentor.objects.all()
+    serializer_class = MentorSerializer
+    # permission_classes = [                             ###added for editing
+    #     permissions.IsAuthenticatedOrReadOnly
+    # ]
+    # def perform_create(self, serializer):
+    #     serializer.save(supporter=self.request.user)
+
+class MentorDetail(generics.RetrieveUpdateDestroyAPIView):
+    # permission_classes = [                             ###added for editing
+    #     permissions.IsAuthenticatedOrReadOnly,
+    #     IsSupporterOrReadOnly
+    # ]
+    queryset = Mentor.objects.all()
+    serializer_class = MentorDetailSerializer
