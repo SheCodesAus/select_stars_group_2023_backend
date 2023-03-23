@@ -8,7 +8,7 @@ class EventSerializer(serializers.ModelSerializer):
     location = serializers.ChoiceField(choices=location_category)
     class Meta:
         model = Event
-        fields =['id', 'image', 'description', 'start date', 'end_date', 'status']
+        fields =['id', 'image', 'event_type', 'location', 'description', 'start date', 'end_date', 'status']
         extra_kwargs = {'mentors' : {'required': False}}
         read_only_fields = ['id']
         
