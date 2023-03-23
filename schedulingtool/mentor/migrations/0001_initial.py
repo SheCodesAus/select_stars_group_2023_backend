@@ -16,7 +16,6 @@ class Migration(migrations.Migration):
             name='Event',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
                 ('image', models.URLField(default='https://shecodes.com.au/wp-content/uploads/2020/02/Purple_no_circle.svg')),
                 ('event_type', models.CharField(choices=[('Flash', 'Flash'), ('Plus', 'Plus'), ('One Day Workshop', 'One Day Workshop')], max_length=200, null=True)),
                 ('location', models.CharField(choices=[('Sydney', 'Sydney'), ('Perth', 'Perth'), ('Brisbane', 'Brisbane')], max_length=200, null=True)),
