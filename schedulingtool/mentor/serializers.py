@@ -3,18 +3,30 @@ from .models import Event,Mentor, event_category, location_category, level_categ
 
 
 
-class EventSerializer(serializers.Serializer):
-    id = serializers.ReadOnlyField() #readOnly so users cant choose
-    image = serializers.URLField(default="https://shecodes.com.au/wp-content/uploads/2020/02/Purple_no_circle.svg")
-    event_type=serializers.ChoiceField(choices= event_category)
-    location=serializers.ChoiceField(choices= location_category)
-    description=serializers.CharField()
-    start_date = serializers.DateTimeField(read_only=True)
-    end_date = serializers.DateTimeField(read_only=True)
-    status= serializers.BooleanField(default=True)
-    
+class EventSerializer(serializers.ModelSerializer):
+    event_type= serializers.ChoiceField(choices=event_category)
+    location = serializers.ChoiceField(choices=location_category)
+    class Meta:
+        model = Event
+        fields =['id', 'image', 'description', 'start date', 'end_date', 'status']
+        extra_kwargs = {'mentors' : {'required': False}}
+        read_only_fields = ['id']
+        
     def create(self, validated_data):
         return Event.objects.create(**validated_data)
+
+# class EventSerializer(serializers.Serializer):
+#     id = serializers.ReadOnlyField() #readOnly so users cant choose
+#     image = serializers.URLField(default="https://shecodes.com.au/wp-content/uploads/2020/02/Purple_no_circle.svg")
+#     event_type=serializers.ChoiceField(choices= event_category)
+#     location=serializers.ChoiceField(choices= location_category)
+#     description=serializers.CharField()
+#     start_date = serializers.DateTimeField(read_only=True)
+#     end_date = serializers.DateTimeField(read_only=True)
+#     status= serializers.BooleanField(default=True)
+    
+#     def create(self, validated_data):
+#         return Event.objects.create(**validated_data)
 
 class EventDetailSerializer(EventSerializer):
     # mentor = MentorSerializers(many=True, read_only=True) 
