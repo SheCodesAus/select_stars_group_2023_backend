@@ -40,6 +40,7 @@ class EventDetailSerializer(EventSerializer):
         instance.location=validated_data.get("location", instance.location)
         instance.description = validated_data.get('description', instance.description)
         instance.start_date = validated_data.get('start_date', instance.start_date)
+        instance.end_date = validated_data.get('start_date', instance.end_date)
         instance.status = validated_data.get('status', instance.status)
         instance.save()
         return instance
