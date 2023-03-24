@@ -6,9 +6,12 @@ from .models import Event,Mentor, event_category, location_category, level_categ
 class EventSerializer(serializers.ModelSerializer):
     event_type= serializers.ChoiceField(choices=event_category)
     location = serializers.ChoiceField(choices=location_category)
+    start_date=serializers.DateTimeField(format='%Y-%m-%d %H:%M')
+    end_date=serializers.DateTimeField(format='%Y-%m-%d %H:%M')
+
     class Meta:
         model = Event
-        fields =['id', 'image', 'event_type', 'location', 'description', 'start date', 'end_date', 'status']
+        fields =['id', 'image', 'event_type', 'location', 'description', 'start_date', 'end_date','status']
         extra_kwargs = {'mentors' : {'required': False}}
         read_only_fields = ['id']
         

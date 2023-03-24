@@ -73,17 +73,17 @@ class EventDetail(APIView):
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-class MentorList(generics.ListCreateAPIView): #to create a read-write endpoint that lists all available Pledge instances
+class MentorList(generics.ListCreateAPIView):
     queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
-    # permission_classes = [                             ###added for editing
+    # permission_classes = [                            
     #     permissions.IsAuthenticatedOrReadOnly
     # ]
     # def perform_create(self, serializer):
     #     serializer.save(supporter=self.request.user)
 
 class MentorDetail(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [                             ###added for editing
+    # permission_classes = [                            
     #     permissions.IsAuthenticatedOrReadOnly,
     #     IsSupporterOrReadOnly
     # ]

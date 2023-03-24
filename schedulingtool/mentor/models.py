@@ -27,8 +27,8 @@ class Event(models.Model):
     event_type=models.CharField(max_length=200, null=True, choices= event_category)
     location=models.CharField(max_length=200, null=True, choices= location_category)
     description=models.TextField()
-    start_date = models.DateTimeField(default=datetime.now)
-    end_date = models.DateTimeField(default=(datetime.now() + timedelta(days=30)))
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     status= models.BooleanField(default=True)
     
 
