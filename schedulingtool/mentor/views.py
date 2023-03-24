@@ -4,11 +4,11 @@ from .models import Event, Mentor
 from .serializers import EventSerializer,EventDetailSerializer, MentorSerializer, MentorDetailSerializer
 from django.http import Http404
 from rest_framework import status, generics, permissions
-# from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
+
 
 # Create your views here.
 class EventList(APIView):
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly] #built in django to allow only logged in
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly] #built in django to allow only logged in
     
     def get(self, request):
         event = Event.objects.all().values()
@@ -33,22 +33,18 @@ class EventList(APIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 class EventDetail(APIView):
-    # permission_classes = [
-    #     permissions.IsAuthenticatedOrReadOnly,
-    #     IsOwnerOrReadOnly
-    # ]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_object(self, pk):
         try:
-            # return Project.objects.get(pk=pk) #passing the input in as an attribute
             event = Event.objects.get(pk=pk)
             self.check_object_permissions(self.request, event)
             return event
         except Event.DoesNotExist:
             raise Http404 #means resource does not exit, user did something wrong
     def get(self, request, pk):
-        project = self.get_object(pk)
-        serializer = EventDetailSerializer(project)
+        event = self.get_object(pk)
+        serializer = EventDetailSerializer(event)
         return Response(serializer.data)
 
     def put(self, request, pk):
@@ -76,16 +72,10 @@ class EventDetail(APIView):
 class MentorList(generics.ListCreateAPIView):
     queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
-    # permission_classes = [                            
-    #     permissions.IsAuthenticatedOrReadOnly
-    # ]
-    # def perform_create(self, serializer):
-    #     serializer.save(supporter=self.request.user)
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+   
 
 class MentorDetail(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [                            
-    #     permissions.IsAuthenticatedOrReadOnly,
-    #     IsSupporterOrReadOnly
-    # ]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Mentor.objects.all()
     serializer_class = MentorDetailSerializer
