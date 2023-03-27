@@ -11,7 +11,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields =['id', 'image', 'event_type', 'location', 'description', 'start_date', 'end_date','status']
+        fields =['id','title', 'image', 'event_type', 'location', 'description', 'start_date', 'end_date','status', 'mentors']
         extra_kwargs = {'mentors' : {'required': False}}
         read_only_fields = ['id']
         
@@ -30,9 +30,23 @@ class EventSerializer(serializers.ModelSerializer):
     
 #     def create(self, validated_data):
 #         return Event.objects.create(**validated_data)
+class MentorSerializer(serializers.ModelSerializer):
+    level = serializers.ChoiceField(choices=level_category)
+    class Meta:
+        model = Mentor
+        fields = ["id","first_name", "last_name", "email", "bio", "image", "skills", "level",
+                   "interview", "offer", "contract_sent", "contract_return",
+                  "onboarding_completed", "feedback_sent", "offboarding"]
+        extra_kwargs = {'events' : {'required': False}}
+        read_only_fields = ['id']
+
+
+    def create(self, validated_data):          
+        
+        return Mentor.objects.create(**validated_data)
 
 class EventDetailSerializer(EventSerializer):
-    # mentor = MentorSerializers(many=True, read_only=True) 
+    # mentors = MentorSerializer(many=True, read_only=True) 
 
     def update(self, instance, validated_data):
         instance.image = validated_data.get('image', instance.image)
@@ -42,25 +56,13 @@ class EventDetailSerializer(EventSerializer):
         instance.start_date = validated_data.get('start_date', instance.start_date)
         instance.end_date = validated_data.get('start_date', instance.end_date)
         instance.status = validated_data.get('status', instance.status)
+        instance.mentors = validated_data.get('mentors', instance.mentors)
         instance.save()
         return instance
     
-class MentorSerializer(serializers.ModelSerializer):
-    level = serializers.ChoiceField(choices=level_category)
-    class Meta:
-        model = Mentor
-        fields = ["id","first_name", "last_name", "email", "bio", "image", "skills", "level",
-                   "interview", "offer", "contract_sent", "contract_return",
-                  "onboarding_completed", "feedback_sent", "offboarding", "events"]
-        extra_kwargs = {'events' : {'required': False}}
-        read_only_fields = ['id']
-
-
-    def create(self, validated_data):          
-        
-        return Mentor.objects.create(**validated_data)
-
 class MentorDetailSerializer(MentorSerializer):
+    events = EventSerializer(many=True)
+
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
@@ -76,7 +78,6 @@ class MentorDetailSerializer(MentorSerializer):
         instance.onboarding_completed = validated_data.get('onboarding_completed', instance.onboarding_completed)
         instance.feedback_sent = validated_data.get('feedback_sent', instance.feedback_sent)
         instance.offboarding = validated_data.get('offboarding', instance.offboarding)
-        instance.event = validated_data.get('event', instance.event)
         instance.save()
         return instance
     
