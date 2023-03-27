@@ -25,7 +25,7 @@ level_category = (
 class Mentor(models.Model):
     first_name=models.CharField(max_length=50, null=True)
     last_name=models.CharField(max_length=50, null=True)
-    email=models.EmailField()
+    email=models.EmailField(unique=True)
     bio=models.TextField()
     image=models.URLField(default="https://shecodes.com.au/wp-content/uploads/2021/10/Screen-Shot-2021-12-07-at-12.00.01-pm-400x400.png")
     skills=models.CharField(max_length=500)
@@ -49,4 +49,4 @@ class Event(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     status= models.BooleanField(default=True)
-    mentors = models.ManyToManyField("Mentor",related_name="events",blank=True)
+    mentors = models.ManyToManyField(Mentor,related_name="events")
