@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'mentor.apps.MentorConfig',
+    'user.apps.UserConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'django.contrib.admin',
@@ -39,8 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mentor.apps.MentorConfig',
-    'user.apps.UserConfig',
+    
 ]
 
 AUTH_USER_MODEL = 'user.CustomUser'
