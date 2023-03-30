@@ -1,12 +1,23 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Event, Mentor
-from .serializers import EventSerializer, MentorSerializer
+from .models import Event, Mentor, Tech_Stack
+from .serializers import EventSerializer, MentorSerializer, Tech_StackSerialiser
 from django.http import Http404
 from rest_framework import status, generics, permissions
 
 
 # Create your views here.
+
+class Tech_StackList(generics.ListCreateAPIView):
+    queryset = Tech_Stack.objects.all()
+    serializer_class = Tech_StackSerialiser
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class Tech_StackDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Tech_Stack.objects.all()
+    serializer_class = Tech_StackSerialiser
+
 # class EventList(APIView):
 #     permission_classes = [permissions.IsAuthenticatedOrReadOnly] #built in django to allow only logged in
     
@@ -47,6 +58,8 @@ class EventList(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    
         
     # def create(self, request, *args, **kwargs):
     #     data = request.data
