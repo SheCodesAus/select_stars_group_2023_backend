@@ -22,13 +22,16 @@ level_category = (
     ("Lead", "Lead")
 )
 # Create your models here.
+
+class Tech_Stack(models.Model):
+    name = models.CharField(max_length=300)
 class Mentor(models.Model):
     first_name=models.CharField(max_length=50, null=True)
     last_name=models.CharField(max_length=50, null=True)
     email=models.EmailField(unique=True)
     bio=models.TextField()
     image=models.URLField(default="https://shecodes.com.au/wp-content/uploads/2021/10/Screen-Shot-2021-12-07-at-12.00.01-pm-400x400.png")
-    skills=models.CharField(max_length=500)
+    mentor_tech_stack=models.ManyToManyField(Tech_Stack, related_name="tech_mentor")
     level=models.CharField(max_length=200, null=True, choices= level_category)
     interview=models.BooleanField(default=False)
     offer=models.BooleanField(default=False)
@@ -49,4 +52,5 @@ class Event(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     status= models.BooleanField(default=True)
-    mentors = models.ManyToManyField(Mentor,related_name="events")
+    mentors = models.ManyToManyField(Mentor,related_name="events_mentor")
+    event_tech_stack=models.ManyToManyField(Tech_Stack, related_name="events_tech")

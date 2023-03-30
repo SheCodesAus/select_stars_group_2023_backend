@@ -7,6 +7,8 @@ urlpatterns = [
     path('event/<int:pk>/', views.EventDetail.as_view()),
     path('mentor/', views.MentorList.as_view()),
     path('mentor/<int:pk>/', views.MentorDetail.as_view()),
+    path('tech_stack/', views.Tech_StackList.as_view()),
+    path('tech_stack/<int:pk>/', views.Tech_StackDetail.as_view()),
 
     
 ]

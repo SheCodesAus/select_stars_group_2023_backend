@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Event,Mentor, event_category, location_category, level_category
+from .models import Event,Mentor, event_category, location_category, level_category, Tech_Stack
 
         
 
@@ -16,14 +16,20 @@ from .models import Event,Mentor, event_category, location_category, level_categ
     
 #     def create(self, validated_data):
 #         return Event.objects.create(**validated_data)
+
+class Tech_StackSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = Tech_Stack
+        fields = '__all__'
+    
 class MentorSerializer(serializers.ModelSerializer):
     level = serializers.ChoiceField(choices=level_category)
     class Meta:
         model = Mentor
-        fields = ["id","first_name", "last_name", "email", "bio", "image", "skills", "level",
+        fields = ["id","first_name", "last_name", "email", "bio", "image", "mentor_tech_stack", "level",
                    "interview", "offer", "contract_sent", "contract_return",
                   "onboarding_completed", "feedback_sent", "offboarding"]
-        extra_kwargs = {'events' : {'required': False}}
+        extra_kwargs = {'events_mentor' : {'required': False}, 'events_tech' : {'required':False}, 'mentor_tech_stack' : {'required': False}}
         read_only_fields = ['id']
 
 
@@ -35,8 +41,8 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields =['id','title', 'image', 'event_type', 'location', 'description', 'start_date', 'end_date','status', 'mentors']
-        extra_kwargs = {'mentors' : {'required': False}}
+        fields =['id','title', 'image', 'event_type', 'location', 'description', 'start_date', 'end_date','status', 'mentors', 'event_tech_stack']
+        extra_kwargs = {'mentors' : {'required': False}, 'event_tech_stack' : {'required': False}, 'tech_mentor' : {'required': False} }
         read_only_fields = ['id']
 
 
