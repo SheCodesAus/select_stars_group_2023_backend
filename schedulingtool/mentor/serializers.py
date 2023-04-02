@@ -31,7 +31,7 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields =['id','title', 'image', 'event_type', 'location', 'description', 'start_date', 'end_date','status', 'mentors', 'event_tech_stack']
-        extra_kwargs = {'mentor' : {'required': False}, 'event_tech_stack' : {'required': False}, 'tech_mentor' : {'required': False} }
+        extra_kwargs = {'mentors' : {'required': False}, 'event_tech_stack' : {'required': False}, 'tech_mentor' : {'required': False} }
         read_only_fields = ['id']
 
 
@@ -44,23 +44,22 @@ class OnboardingSerializer(serializers.ModelSerializer):
                         'onboarding_completed':{'required': False}, 'feedback':{'required': False}, 
                         'offboarding':{'required': False}, 'event':{'required': False}, 'mentor':{'required': False}}
         # fields = ['id', 'interview', 'offer', 'contract_sent', 'contract_return', 'onboarding_completed', 'feedback', 'offboarding']
-        read_only_fields = ['id', 'event']
+        read_only_fields = ['id']
 
 
     
 class MentorSerializer(serializers.ModelSerializer):
     level = serializers.ChoiceField(choices=level_category)
-    
-    events = OnboardingSerializer(many=True, source="onboardings")
+    events = OnboardingSerializer(many=True, source="onboardings", read_only=True)
     onboarding = OnboardingSerializer(many=True, read_only=True) 
     
     # interview_user = CustomUserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Mentor
-        fields = ["id","first_name", "last_name", "email", "bio", "image", "mentor_tech_stack", "level", 'onboarding', 'events']
-        extra_kwargs = {'events' : {'required': False}, 'events_tech' : {'required':False}, 'mentor_tech_stack' : {'required': False}}
+        # fields = '__all__'
+        fields = ["id","first_name", "last_name", "email", "bio", "image", "mentor_tech_stack", "level", "can_travel", 'onboarding', 'events']
+        extra_kwargs = { 'events_tech' : {'required':False}, 'mentor_tech_stack' : {'required': False}}
         read_only_fields = ['id', 'onboarding', 'events']
-
 
     
