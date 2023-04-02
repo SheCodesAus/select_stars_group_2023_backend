@@ -1,19 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Event, Mentor, Tech_Stack
-from .serializers import EventSerializer, MentorSerializer, Tech_StackSerialiser
+from .models import Event, Mentor, Tech_Stack, Onboarding
+from .serializers import EventSerializer, MentorSerializer, Tech_StackSerialiser, OnboardingSerializer
 from django.http import Http404
 from rest_framework import status, generics, permissions
 
 
 # Create your views here.
 
-class Tech_StackList(generics.ListCreateAPIView):
+class Tech_StackListView(generics.ListCreateAPIView):
     queryset = Tech_Stack.objects.all()
     serializer_class = Tech_StackSerialiser
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class Tech_StackDetail(generics.RetrieveUpdateDestroyAPIView):
+class Tech_StackDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Tech_Stack.objects.all()
     serializer_class = Tech_StackSerialiser
@@ -54,7 +54,7 @@ class Tech_StackDetail(generics.RetrieveUpdateDestroyAPIView):
 #         except Event.DoesNotExist:
 #             raise Http404 #means resource does not exit, user did something wrong
 
-class EventList(generics.ListCreateAPIView):
+class EventListView(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -99,7 +99,7 @@ class EventList(generics.ListCreateAPIView):
 
         
     
-class EventDetail(generics.RetrieveUpdateDestroyAPIView):
+class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
@@ -131,7 +131,7 @@ class EventDetail(generics.RetrieveUpdateDestroyAPIView):
 #         event.delete()
 #         return Response(status=status.HTTP_204_NO_CONTENT)
     
-class MentorList(generics.ListCreateAPIView):
+class MentorListView(generics.ListCreateAPIView):
     queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -153,14 +153,26 @@ class MentorList(generics.ListCreateAPIView):
 
     #     return Response(serializer.data)
 
-class MentorDetail(generics.RetrieveUpdateDestroyAPIView):
+class MentorDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
     
     
+class OnboardingListView(generics.ListCreateAPIView): #to create a read-write endpoint that lists all available Onboarding instances
+    queryset = Onboarding.objects.all()
+    serializer_class = OnboardingSerializer
+    permission_classes = [                            
+        permissions.IsAuthenticatedOrReadOnly
+    ]
+    
+class OnboardingDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [                           
+        permissions.IsAuthenticatedOrReadOnly,
+        # IsSupporterOrReadOnly
+    ]
+    queryset = Onboarding.objects.all()
+    serializer_class = OnboardingSerializer
 
-        
-   
-
-   
+    # def put(self, serializer):
+    #     return self.update(interview=self.request.user)
