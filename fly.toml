@@ -1,4 +1,6 @@
-app = "schedulingtool"
+# fly.toml file generated for she-codes-scheduling-tool on 2023-04-03T14:12:32+10:00
+
+app = "she-codes-scheduling-tool"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
