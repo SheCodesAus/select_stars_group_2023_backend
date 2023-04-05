@@ -58,7 +58,7 @@ class MentorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
         # fields = '__all__'
-        fields = ["id","first_name", "last_name", "email", "bio", "image", "mentor_tech_stack", "level", "can_travel", 'onboarding', 'events']
+        fields = ["id","first_name", "last_name", "email", "bio", "image", "mentor_tech_stack", "level", "location", "can_travel", 'onboarding', 'events']
         extra_kwargs = { 'events_tech' : {'required':False}, 'mentor_tech_stack' : {'required': False}}
         read_only_fields = ['id', 'onboarding', 'events']
 
